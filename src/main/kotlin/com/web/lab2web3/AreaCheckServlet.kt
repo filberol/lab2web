@@ -43,13 +43,13 @@ class AreaCheckServlet: HttpServlet() {
 
     companion object Checker {
         fun checkCircle(r: Float, x: Float, y: Float): HitResult {
-            return if (x*x + y*y <= r*r) HitResult.SUCCESS else HitResult.FAIL
+            return if (x*x + y*y <= r/2) HitResult.SUCCESS else HitResult.FAIL
         }
         fun checkTriangle(r: Float, x: Float, y: Float): HitResult {
             return if (y >= (-x)/2 - r/2 && y >= -r) HitResult.SUCCESS else HitResult.FAIL
         }
         fun checkRectangle(r: Float, x: Float, y: Float): HitResult {
-            return if (x <= r && y >= -r) HitResult.SUCCESS else HitResult.FAIL
+            return if (x <= r && y >= -r/2) HitResult.SUCCESS else HitResult.FAIL
         }
     }
 

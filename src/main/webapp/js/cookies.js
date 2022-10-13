@@ -1,9 +1,11 @@
-import {drawHit} from "./canvas.js";
+import {draw} from "./canvas.js";
+
+export let saved = []
 
 export function appendRecord(record) {
   let table = $(".table-container div table tbody");
   let nightMode = localStorage.getItem("mode") === "night" ? "night" : "";
-  drawHit(record.coordinates[0], record.coordinates[1], true)
+  saved.push(JSON.parse(record.coordinates))
   table.append(`
               <tr class="logged">
               <td class="${nightMode}" >${record.coordinates}</td>
@@ -15,6 +17,8 @@ export function appendRecord(record) {
 }
 
 export function clearStorage() {
+  saved = []
+  draw()
   $("tbody .logged").html("");
 }
 

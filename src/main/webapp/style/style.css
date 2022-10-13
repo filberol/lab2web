@@ -22,7 +22,29 @@ body {
   background: url("../img/prism.svg");
   background-size: 300%;
 }
+body .message {
+  display: block;
+  position: absolute;
+  font-family: miratrix, sans-serif;
+  font-size: 150vh;
+  right: -10000px;
+  top: -50vh;
+  overflow: hidden;
+  letter-spacing: 1px;
+  font-stretch: ultra-condensed;
+  animation-duration: 4s;
+  animation-name: correct;
+  animation-iteration-count: 1;
+}
 
+@keyframes correct {
+  from {
+    right: -8000px;
+  }
+  to {
+    right: 10000px;
+  }
+}
 p {
   letter-spacing: 0;
   font-size: 20px;

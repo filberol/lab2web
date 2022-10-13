@@ -1,4 +1,5 @@
 import {loadMode, appendRecord, clearStorage, changeMode, switchMode} from "./cookies.js";
+import {draw_hits_for_r} from "./canvas.js";
 
 export let checks = []
 export let text = NaN
@@ -28,7 +29,10 @@ textInput.on("input", function () {
 });
 
 export function sendRequest() {
-  if (!checkValues()) return false
+  if (!checkValues())  {
+    show_message()
+    return false
+  }
   checks.forEach(box => {
     $.ajax({
       url: './req',
@@ -41,6 +45,7 @@ export function sendRequest() {
       },
       success: function (record) {
         appendRecord(record)
+        draw_hits_for_r()
       }
     })
   })
@@ -76,6 +81,7 @@ function refreshValues() {
   }).get();
   text = textInput.val();
   radio = parseInt($(".r-radio:checked").val());
+  draw_hits_for_r()
 }
 
 export function checkValues() {
@@ -98,3 +104,11 @@ $("button.menu-button").click(function () {
   $("#description").toggleClass("active");
   $("li.header-block").toggleClass("active");
 });
+
+function show_message() {
+  const msg = document.createElement("div")
+  msg.appendChild(document.createTextNode("НЕПРАВИЛЬНО"))
+  msg.classList.add("message")
+  document.body.appendChild(msg)
+  setTimeout(() => {  msg.remove(); }, 5000);
+}

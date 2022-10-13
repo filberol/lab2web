@@ -1,4 +1,5 @@
-import {setChecks, setText, getRadio, checkValues, sendRequest} from "./main.js";
+import {setChecks, setText, getRadio, sendRequest, radio} from "./main.js";
+import {saved} from "./cookies.js";
 
 const canvas = document.getElementById("graph")
     const ctx = canvas.getContext("2d");
@@ -16,12 +17,11 @@ $("#graph").click(function (event) {
     const r = getRadio()
     setChecks([(x/width * 2*r)-r])
     setText(-((y/height * 2*r)-r))
-    if (!checkValues()) return
     if (sendRequest()) drawHit(x, y, false)
 })
 
-function draw() {
-    ctx.fillStyle = "rgba(255, 255, 255, 0.7)"
+export function draw() {
+    ctx.fillStyle = "rgba(255, 255, 255, 1)"
     ctx.fillRect(0, 0, width, height)
 
     //draw figures
@@ -84,10 +84,19 @@ export function drawHit(x, y, transfrom ) {
     ctx.beginPath()
     ctx.strokeStyle = "rgba(0, 0, 0, 1)"
     ctx.fillStyle = "rgba(0, 0, 0, 1)"
-    const x1 = transfrom?x*100:x
-    const y1 = transfrom?y*100:y
+    const x1 = transfrom?(x/radio*width/2+width/2):x
+    const y1 = transfrom?height-(y/radio*height/2+height/2):y
     ctx.moveTo(x1, y1)
-    ctx.arc(x, y, 2, 0, 2*Math.PI)
+    ctx.arc(x1, y1, 2, 0, 2*Math.PI)
     ctx.fill()
     ctx.stroke()
+}
+
+export function draw_hits_for_r() {
+    draw()
+    for (let i in saved) {
+        if (saved[i][2] === radio) {
+            drawHit(saved[i][0], saved[i][1], true)
+        }
+    }
 }
